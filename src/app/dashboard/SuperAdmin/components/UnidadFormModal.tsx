@@ -4,19 +4,17 @@ import { X } from 'lucide-react';
 import { Colegio, UnidadEducativa } from '@/app/modelos/Institucion';
 import { Admin } from '@/app/modelos/Usuarios';
 
-
 export interface FormState {
   id?: number;
   nombre: string;
   codigoSie: string;
   turno: UnidadEducativa['turno'];
   nivel: string;
-  colegioId: number | null;
+  colegio: Colegio | null;
   direccion: string;
   telefono: string;
   adminId: number | null;
 }
-
 
 interface Props {
   open: boolean;
@@ -49,11 +47,11 @@ export default function UnidadFormModal({
   const handleSave = () => {
     // Validaciones básicas
     if (
-      !form.nombre ||
-      !form.codigoSie ||
+      !form.nombre.trim() ||
+      !form.codigoSie.trim() ||
       !form.turno ||
-      !form.nivel ||
-      form.colegioId == null
+      !form.nivel.trim() ||
+      form.colegio == null
     ) {
       alert('Completa todos los campos obligatorios.');
       return;
@@ -80,7 +78,7 @@ export default function UnidadFormModal({
           <div className="md:col-span-2">
             <label className="block mb-1">Nombre</label>
             <input
-              value={form.nombre}
+              value={form.nombre ?? ''}
               onChange={e => setForm({ ...form, nombre: e.target.value })}
               className="w-full border rounded px-3 py-2"
               placeholder="Ej. Don Bosco Central A"
@@ -91,11 +89,13 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Colegio</label>
             <select
-              value={form.colegioId ?? ''}
+              value={form.colegio?.id ?? ''}
               onChange={e =>
                 setForm({
                   ...form,
-                  colegioId: e.target.value ? Number(e.target.value) : null,
+                  colegio: e.target.value
+                    ? colegios.find(c => c.id === Number(e.target.value)) || null
+                    : null,
                 })
               }
               className="w-full border rounded px-3 py-2"
@@ -113,7 +113,7 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Código SIE</label>
             <input
-              value={form.codigoSie}
+              value={form.codigoSie ?? ''}
               onChange={e =>
                 setForm({ ...form, codigoSie: e.target.value })
               }
@@ -125,7 +125,7 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Turno</label>
             <select
-              value={form.turno}
+              value={form.turno ?? ''}
               onChange={e =>
                 setForm({
                   ...form,
@@ -146,7 +146,7 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Nivel</label>
             <select
-              value={form.nivel}
+              value={form.nivel ?? ''}
               onChange={e => setForm({ ...form, nivel: e.target.value })}
               className="w-full border rounded px-3 py-2"
             >
@@ -161,7 +161,7 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Dirección</label>
             <input
-              value={form.direccion}
+              value={form.direccion ?? ''}
               onChange={e =>
                 setForm({ ...form, direccion: e.target.value })
               }
@@ -173,7 +173,7 @@ export default function UnidadFormModal({
           <div>
             <label className="block mb-1">Teléfono</label>
             <input
-              value={form.telefono}
+              value={form.telefono ?? ''}
               onChange={e =>
                 setForm({ ...form, telefono: e.target.value })
               }

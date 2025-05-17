@@ -12,6 +12,7 @@ import UnidadesTable from './components/UnidadesTable';
 
 export default function SuperAdminUnidades() {
   const [rows, setRows] = useState<UnidadEducativa[]>([]);
+  const [search, setSearch] = useState<string>('');
   const [colegios, setColegios] = useState<Colegio[]>([]);
   const [admins, setAdmins] = useState<Admin[]>([]);
 
@@ -33,18 +34,72 @@ export default function SuperAdminUnidades() {
       .then(r => setRows(r.data));
   }, []);
 
-  const handleSave = (f: FormState) => {
-    // aquí posteas/pones y luego:
-    if (editUnit) {
-      setRows(rs =>
-        rs.map(r => (r.id === f.id ? { ...r, ...f } : r))
-      );
-    } else {
-      setRows(rs => [...rs, { id: Date.now(), ...f }]);
+
+  const handleSave = async (f: FormState) => {
+    const payload = new FormData();
+    payload.append('nombre', f.nombre);
+    payload.append('codigo_sie', f.codigoSie);
+    payload.append('turno', f.turno);
+    payload.append('nivel', f.nivel);
+    if (f.direccion) payload.append('direccion', f.direccion);
+    if (f.telefono)  payload.append('telefono', f.telefono);
+    if (f.adminId)   payload.append('admin_id', String(f.adminId));
+    if (f.colegio) payload.append('colegio', String(f.colegio));
+
+    try {
+      if (editUnit) {
+        // PUT para editar
+        const res = await AxiosInstance.put<UnidadEducativa>(
+          `/institucion/editar-unidad-educativa/${editUnit.id}/`,
+          payload,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+        setRows(rs => rs.map(r => r.id === editUnit.id ? res.data : r));
+        alert('✅ Unidad actualizada');
+      } else {
+        // POST para crear
+        const res = await AxiosInstance.post<UnidadEducativa>(
+          '/institucion/crear-unidad-educativa/',
+          payload,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+        setRows(rs => [...rs, res.data]);
+        alert('✅ Unidad creada');
+      }
+      setOpen(false);
+      setEditUnit(null);
+    } catch (err: any) {
+      console.error(err);
+      const detail = err.response?.data;
+      const msg = detail
+        ? Object.values(detail).flat().join('\n')
+        : err.message;
+      alert('❌ Error al guardar:\n' + msg);
     }
-    setOpen(false);
-    setEditUnit(null);
   };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('¿Eliminar esta unidad educativa?')) return;
+    try {
+      await AxiosInstance.delete(`/institucion/eliminar-unidad-educativa/${id}/`);
+      setRows(rs => rs.filter(r => r.id !== id));
+      alert('✅ Unidad eliminada');
+    } catch (err) {
+      console.error(err);
+      alert('❌ Error al eliminar');
+    }
+  };
+
+  const filteredRows = rows.filter(u => {
+      const term = search.trim().toLowerCase();
+      if (!term) return true;
+      return (
+        u.nombre?.toLowerCase().includes(term) ||
+        u.codigo_sie?.toLowerCase().includes(term) ||
+        u.nivel?.toLowerCase().includes(term) 
+      )
+    }
+  );
 
   return (
     <section className="space-y-6">
@@ -63,8 +118,19 @@ export default function SuperAdminUnidades() {
         </button>
       </header>
 
+      <div className="mb-4">
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Buscar por nombre, código SIE o nivel"
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+        </input>
+      </div>
+
       <UnidadesTable
-        rows={rows}
+        rows={filteredRows}
         colegios={colegios}
         admins={admins}
         sort={sort}
@@ -73,7 +139,7 @@ export default function SuperAdminUnidades() {
           setEditUnit(u);
           setOpen(true);
         }}
-        onDelete={id => setRows(rs => rs.filter(r => r.id !== id))}
+        onDelete={handleDelete}
       />
 
 <UnidadFormModal
@@ -83,10 +149,10 @@ export default function SuperAdminUnidades() {
           ? {
               id: editUnit.id,
               nombre: editUnit.nombre  ?? '',      // nunca undefined
-              codigoSie: editUnit.codigoSie,       // siempre string
+              codigoSie: editUnit.codigo_sie,       // siempre string
               turno: editUnit.turno,               // literal ok
               nivel: editUnit.nivel        ?? '',  // nunca undefined
-              colegioId: editUnit.colegioId ?? null,
+              colegio: editUnit.colegio ?? null,
               direccion: editUnit.direccion ?? '',
               telefono: editUnit.telefono   ?? '',
               adminId: editUnit.adminId     ?? null,
@@ -96,7 +162,7 @@ export default function SuperAdminUnidades() {
               codigoSie: '',
               turno: 'MAÑANA',
               nivel: '',
-              colegioId: null,
+              colegio: null,
               direccion: '',
               telefono: '',
               adminId: null,

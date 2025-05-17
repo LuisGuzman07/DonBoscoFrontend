@@ -77,8 +77,11 @@ export default function SuperAdminUsuarios() {
         </button>
       </header>
 
+      
+
       {loading && <div className="text-center">Cargando…</div>}
       {error && <div className="text-red-600 text-center">{error}</div>}
+      
 
       {!loading && !error && (
         <UsuariosTable

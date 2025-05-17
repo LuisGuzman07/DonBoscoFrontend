@@ -1,6 +1,4 @@
-// src/app/dashboard/modelos/Institucion.tsx
 
-// Modelo TypeScript correspondiente a tus modelos Django de Institución
 
 /** Colegio */
 export interface Colegio {
@@ -55,12 +53,12 @@ export type Turno =
 /** Unidad Educativa */
 export interface UnidadEducativa {
   id: number;
-  codigoSie: string;
+  codigo_sie: string;
   turno: Turno;
   nombre?: string | null;
   direccion?: string | null;
   telefono?: string | null;
   nivel?: string | null;
   adminId?: number | null;
-  colegioId?: number | null;
+  colegio?: Colegio | null;
 }

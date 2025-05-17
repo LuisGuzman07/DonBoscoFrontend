@@ -165,8 +165,8 @@ export default function SuperAdminInfraestructura() {
       </header>
 
       {/* Tabla de módulos inline */}
-      <div className="overflow-x-auto bg-white rounded-xl shadow">
-        <table className="min-w-full text-sm">
+      <div className="max-w-full overflow-x-auto bg-white rounded-xl shadow">
+        <table className="table-auto min-w-full text-sm whitespace-nowrap">
           <thead className="bg-blue-50 text-blue-600">
             <tr>
               <th className="px-4 py-3 text-left">Colegio</th>
