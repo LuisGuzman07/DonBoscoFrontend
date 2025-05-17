@@ -26,6 +26,7 @@ export default function UsuarioFormModal({ initial, onCancel, onSave }: Props) {
       is_staff: false,
       is_active: true,
       date_joined: new Date().toISOString(),
+      sexo: "",
       telefono: null,
     })
   );
