@@ -49,21 +49,22 @@ export default function SuperAdminColegios() {
         const data: SuperAdmin[] = res.data.map(item => new SuperAdmin({
           usuarioId: Number(item.usuario_id),
           usuario: new Usuario({
-            id:         item.usuario.id,
-            ci:         item.usuario.ci,
-            foto:       item.usuario.foto,
-            nombre:     item.usuario.nombre,
-            apellido:   item.usuario.apellido,
-            email:      item.usuario.email,
-            fecha_nacimiento: item.usuario.fecha_nacimiento,
-            username:   item.usuario.username,
-            estado:     item.usuario.estado,
-            rol:        new Rol({ id: item.usuario.rol.id, nombre: item.usuario.rol.nombre }),
-            telefono:            item.usuario.telefono,
-            password:  item.usuario.password,
-            is_staff:            item.usuario.is_staff,
-            is_active:           item.usuario.is_active,
-            date_joined:         item.usuario.date_joined,
+              id:         item.usuario.id,
+              ci:         item.usuario.ci,
+              foto:       item.usuario.foto,
+              nombre:     item.usuario.nombre,
+              apellido:   item.usuario.apellido,
+              sexo:       item.usuario.sexo, // Added the missing 'sexo' property
+              email:      item.usuario.email,
+              fecha_nacimiento: item.usuario.fecha_nacimiento,
+              username:   item.usuario.username,
+              estado:     item.usuario.estado,
+              rol:        new Rol({ id: item.usuario.rol.id, nombre: item.usuario.rol.nombre }),
+              telefono:            item.usuario.telefono,
+              password:  item.usuario.password,
+              is_staff:            item.usuario.is_staff,
+              is_active:           item.usuario.is_active,
+              date_joined:         item.usuario.date_joined,
           })
         }));
         setSuperadmins(data);
