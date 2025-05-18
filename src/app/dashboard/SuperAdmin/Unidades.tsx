@@ -26,11 +26,11 @@ export default function SuperAdminUnidades() {
 
   // Cargas iniciales...
   useEffect(() => {
-    AxiosInstance.get<Colegio[]>('/institucion/listar-colegios/')
+    AxiosInstance.get<Colegio[]>('/institucion/colegios/listar/')
       .then(r => setColegios(r.data));
     AxiosInstance.get<Admin[]>('/user/auth/listar-admins/')
       .then(r => setAdmins(r.data));
-    AxiosInstance.get<UnidadEducativa[]>('/institucion/listar-unidades-educativas/')
+    AxiosInstance.get<UnidadEducativa[]>('/institucion/unidades-educativas/listar/')
       .then(r => setRows(r.data));
   }, []);
 
@@ -50,7 +50,7 @@ export default function SuperAdminUnidades() {
       if (editUnit) {
         // PUT para editar
         const res = await AxiosInstance.put<UnidadEducativa>(
-          `/institucion/editar-unidad-educativa/${editUnit.id}/`,
+          `/institucion/unidades-educativas/editar/${editUnit.id}/`,
           payload,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         );

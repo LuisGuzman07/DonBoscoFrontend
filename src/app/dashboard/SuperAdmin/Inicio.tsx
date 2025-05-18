@@ -10,7 +10,7 @@ export default function SuperAdminInicio() {
   useEffect(() => {
     // Colegios
     AxiosInstance
-      .get("/institucion/cantidad-colegios")
+      .get("/institucion/colegios/cantidad")
       .then(res => setCantidadColegios(res.data.cantidad_colegios))
       .catch(error => {
         console.error("Error al obtener cantidad de colegios:", error);
@@ -19,7 +19,7 @@ export default function SuperAdminInicio() {
 
     // Unidades educativas
     AxiosInstance
-      .get("/institucion/cantidad-unidades-educativas/")
+      .get("/institucion/unidades-educativas/cantidad/")
       .then(res => setCantidadUnidades(res.data.cantidad_unidades_educativas))
       .catch(error => {
         console.error("Error al obtener cantidad de unidades educativas:", error);

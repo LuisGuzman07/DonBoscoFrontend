@@ -21,7 +21,7 @@ export default function SuperAdminColegios() {
   useEffect(() => {
     const cargarColegios = async (): Promise<void> => {
       try {
-        const res = await AxiosInstance.get<any[]>("/institucion/listar-colegios/");
+        const res = await AxiosInstance.get<any[]>("/institucion/colegios/listar/");
         const data: Colegio[] = res.data.map(item => ({
           id: Number(item.id),            // ← aquí convertir a number
           nombre: item.nombre,
