@@ -136,7 +136,7 @@ const Register: React.FC = (): JSX.Element => {
 
     try {
       await AxiosInstance.post(
-        "/user/auth/register/",
+        "/user/auth/usuarios/register/",
         payload,
         {
           headers: {

@@ -41,7 +41,7 @@ export default function PerfilModal({ user, onClose, onSave }: Props) {
 
   const handleLogout = async () => {
     try {
-      await AxiosInstance.post("/user/auth/logout/");
+      await AxiosInstance.post("/user/auth/usuarios/logout/");
       localStorage.removeItem("token");
       localStorage.removeItem("datosDeloUsuario");
       window.location.href = "/login";

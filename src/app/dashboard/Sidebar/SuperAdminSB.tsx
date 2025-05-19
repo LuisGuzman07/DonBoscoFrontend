@@ -99,7 +99,7 @@ export default function SuperAdminSB() {
 
   const logout = async () => {
     try {
-      await AxiosInstance.post("/user/auth/logout/");
+      await AxiosInstance.post("/user/auth/usuarios/logout/");
       localStorage.removeItem("token");
       localStorage.removeItem("datosDelUsuario");
       navigate("/login");

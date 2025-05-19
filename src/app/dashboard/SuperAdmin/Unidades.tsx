@@ -28,7 +28,7 @@ export default function SuperAdminUnidades() {
   useEffect(() => {
     AxiosInstance.get<Colegio[]>('/institucion/colegios/listar/')
       .then(r => setColegios(r.data));
-    AxiosInstance.get<Admin[]>('/user/auth/listar-admins/')
+    AxiosInstance.get<Admin[]>('/user/auth/usuarios/listar-admins/')
       .then(r => setAdmins(r.data));
     AxiosInstance.get<UnidadEducativa[]>('/institucion/unidades-educativas/listar/')
       .then(r => setRows(r.data));

@@ -16,7 +16,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AxiosInstance.get("/user/auth/perfil/")
+    AxiosInstance.get("/user/auth/usuarios/perfil/")
       .then(res => setUser(res.data))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));

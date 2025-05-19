@@ -28,7 +28,7 @@ export default function SuperAdminInicio() {
 
     // Usuarios
     AxiosInstance
-      .get("/user/auth/cantidad/")
+      .get("/user/auth/usuarios/cantidad/")
       .then(res => setCantidadUsuarios(res.data.cantidad_usuarios))
       .catch(error => {
         console.error("Error al obtener cantidad de usuarios:", error);

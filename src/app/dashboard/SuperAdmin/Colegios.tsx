@@ -45,7 +45,7 @@ export default function SuperAdminColegios() {
   useEffect(() => {
     const cargarSuperadmins = async () => {
       try {
-        const res = await AxiosInstance.get<any[]>("/user/auth/listar-superadmins/");
+        const res = await AxiosInstance.get<any[]>("/user/auth/usuarios/listar-superadmins/");
         const data: SuperAdmin[] = res.data.map(item => new SuperAdmin({
           usuarioId: Number(item.usuario_id),
           usuario: new Usuario({

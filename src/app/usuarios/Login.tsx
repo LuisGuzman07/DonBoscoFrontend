@@ -21,7 +21,7 @@ export default function Login() {
       setLoading(true);
 
       try {
-        const { data } = await AxiosInstance.post("/user/auth/login/", {
+        const { data } = await AxiosInstance.post("/user/auth/usuarios/login/", {
           username,
           password,
         });

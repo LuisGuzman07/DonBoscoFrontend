@@ -18,7 +18,7 @@ export default function SuperAdminUsuarios() {
   // Carga inicial
   useEffect(() => {
     setLoading(true);
-    AxiosInstance.get<Usuario[]>("/user/auth/listar-usuarios/")
+    AxiosInstance.get<Usuario[]>("/user/auth/usuarios/listar-usuarios/")
       .then((res) => setUsuarios(res.data))
       .catch(() => setError("No se pudieron cargar los usuarios."))
       .finally(() => setLoading(false));
@@ -37,7 +37,7 @@ export default function SuperAdminUsuarios() {
   const handleDelete = async (id: number) => {
     if (!confirm("¿Eliminar este usuario?")) return;
     try {
-      await AxiosInstance.delete(`/user/auth/eliminar-usuario/${id}/`);
+      await AxiosInstance.delete(`/user/auth/usuarios/eliminar-usuario/${id}/`);
       setUsuarios((prev) => prev.filter((u) => u.id !== id));
     } catch {
       alert("Error al eliminar usuario.");

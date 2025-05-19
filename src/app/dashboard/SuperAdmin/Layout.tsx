@@ -21,7 +21,7 @@ const SuperAdminLayout: React.FC = (): JSX.Element => {
   // Carga el perfil del usuario
   const fetchPerfil = async (): Promise<void> => {
     try {
-      const response = await AxiosInstance.get<Usuario>("/user/auth/perfil/");
+      const response = await AxiosInstance.get<Usuario>("/user/auth/usuarios/perfil/");
       setUser(response.data);
     } catch (error) {
       console.error("Error al obtener perfil:", error);
