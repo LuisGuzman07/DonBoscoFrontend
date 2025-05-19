@@ -20,13 +20,16 @@ const AxiosInstance = axios.create({
 
 AxiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
-    if (token) config.headers.Authorization = `Token ${token}`;
-
-    const csfrftoken = Cookies.get("csrftoken");
-    if (csfrftoken) {
-        config.headers["X-CSRFToken"] = csfrftoken;
+    if (token && !config.url?.includes("/user/auth/login")) {
+      config.headers.Authorization = `Token ${token}`;
     }
-
+  
+    // CSRF
+    const csrfToken = Cookies.get("csrftoken");
+    if (csrfToken) {
+      config.headers["X-CSRFToken"] = csrfToken;
+    }
+  
     return config;
   });
 
