@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Lock, Eye, EyeOff, HomeIcon } from "lucide-react";
 import AxiosInstance from "../../components/AxiosInstance";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -12,6 +13,7 @@ export default function Login() {
   const [remember, setRemember] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = useCallback(
@@ -26,6 +28,7 @@ export default function Login() {
           password,
         });
         const { token, user } = data;
+        setUser(data.user);
 
         localStorage.setItem("token", token);
         if (remember) {
